@@ -19,7 +19,9 @@ SEARCH_BASE = (
     "&Submit=H%C4%BEada%C5%A5&order=&kitx=ano&crp={crp}"
 )
 BASE_URL    = "https://auto.bazos.sk"
-DB_PATH     = Path.home() / "vw_id4_tracker.db"
+REPO_DIR    = Path(__file__).resolve().parent
+LOCAL_STATE_DIR = REPO_DIR / "local-state"
+DB_PATH     = LOCAL_STATE_DIR / "vw_id4_tracker.db"
 PAGE_SIZE   = 20                        # počet inzerátov na stránku
 HEADERS     = {
     "User-Agent": (
@@ -51,6 +53,7 @@ def normalize(text: str) -> str:
 
 # ── databáza ─────────────────────────────────────────────────────────────────
 def get_db() -> sqlite3.Connection:
+    LOCAL_STATE_DIR.mkdir(exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS inzeraty (
@@ -396,7 +399,7 @@ def tlač_tabuľka(skupina: list[dict], nadpis: str, zmeny: dict):
 
 
 # ── HTML export ───────────────────────────────────────────────────────────────
-HTML_PATH = Path(__file__).resolve().with_name("index.html")
+HTML_PATH = REPO_DIR / "index.html"
 
 def html_km(km):
     if km is None: return '<span class="neznáme">–</span>'
