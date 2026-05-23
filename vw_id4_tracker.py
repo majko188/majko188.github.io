@@ -396,7 +396,7 @@ def tlač_tabuľka(skupina: list[dict], nadpis: str, zmeny: dict):
 
 
 # ── HTML export ───────────────────────────────────────────────────────────────
-HTML_PATH = Path.home() / "vw_id4_tracker.html"
+HTML_PATH = Path(__file__).resolve().with_name("index.html")
 
 def html_km(km):
     if km is None: return '<span class="neznáme">–</span>'
@@ -415,6 +415,31 @@ def html_stav(stav, stara_cena, nova_cena):
         sym  = "▼" if diff < 0 else "▲"
         return f'<span class="badge {cls}">{sym} {abs(diff):,}€</span>'.replace(",", "\u202f")
     return ""
+
+def html_nove_inzeraty(nove_db):
+        if not nove_db:
+                return ""
+
+        riadky = ""
+        for ad_id, nazov, datum, cena, km, lokalita, url in nove_db:
+                riadky += f"""
+                <tr>
+                    <td>{datum}</td>
+                    <td class="cena">{html_cena(cena)}</td>
+                    <td>{html_km(km)}</td>
+                    <td>{lokalita}</td>
+                    <td><a href="{url}" target="_blank" rel="noopener">🔗 otvoriť</a></td>
+                    <td class="nazov"><a href="{url}" target="_blank" rel="noopener">{nazov}</a></td>
+                </tr>"""
+
+        return f"""
+        <section class="cat-newhistory">
+            <h2>🆕 História nových inzerátov <span class="cnt">{len(nove_db)}</span></h2>
+            <table>
+                <thead><tr><th>Dátum pridania</th><th>Cena</th><th>Km</th><th>Lokalita</th><th>Odkaz</th><th>Názov inzerátu</th></tr></thead>
+                <tbody>{riadky}</tbody>
+            </table>
+        </section>"""
 
 def html_sekcia(skupina, nadpis, farba_triedy, zmeny):
     if not skupina:
@@ -460,7 +485,7 @@ def html_sekcia(skupina, nadpis, farba_triedy, zmeny):
       </table>
     </section>"""
 
-def vygeneruj_html(autá, zmeny, zmeny_db, dnes_str):
+def vygeneruj_html(autá, zmeny, zmeny_db, nove_db, dnes_str):
     nové_ct = sum(1 for v in zmeny.values() if v == "nové")
     cena_ct = sum(1 for v in zmeny.values() if v == "zmena_ceny")
 
@@ -481,6 +506,7 @@ def vygeneruj_html(autá, zmeny, zmeny_db, dnes_str):
     )
 
     historia = ""
+    historia_novych = html_nove_inzeraty(nove_db)
     if zmeny_db:
         riadky = ""
         for ad_id, nazov, datum, stara, nova in zmeny_db:
@@ -539,6 +565,7 @@ def vygeneruj_html(autá, zmeny, zmeny_db, dnes_str):
   .cat-park  h2 {{ background:var(--blue-bg); color:var(--blue); border-left:4px solid #2980b9; }}
   .cat-none  h2 {{ background:var(--gray-bg); color:var(--gray); border-left:4px solid #aaa; }}
   .cat-history h2 {{ background:#fdf0f0; color:#7a1a1a; border-left:4px solid #c0392b; }}
+    .cat-newhistory h2 {{ background:#eef7ff; color:#184c7c; border-left:4px solid #2563eb; }}
   table {{ width:100%; border-collapse:collapse; font-size:.88rem; }}
   th {{ background:#f8f9fa; padding:.55rem .8rem; text-align:left;
         border-bottom:2px solid #e0e0e0; white-space:nowrap; }}
@@ -576,6 +603,7 @@ def vygeneruj_html(autá, zmeny, zmeny_db, dnes_str):
   </div>
 </header>
 {sekcie}
+{historia_novych}
 {historia}
 <script>
 function sortTable(th) {{
@@ -734,6 +762,12 @@ def main():
         ORDER BY z.rowid DESC LIMIT 20
     """).fetchall()
 
+    nove_db = conn.execute("""
+        SELECT id, nazov, prvy_zaznam, cena, km, lokalita, url
+        FROM inzeraty
+        ORDER BY prvy_zaznam DESC, rowid DESC LIMIT 50
+    """).fetchall()
+
     if zmeny_db:
         print("  HISTÓRIA ZMIEN CEN (posledných 20):")
         print(f"  {'ID':<12} {'Dátum':<12} {'Stará cena':>12} {'Nová cena':>12}  Názov")
@@ -745,8 +779,17 @@ def main():
             print(f"  {ad_id:<12} {datum:<12} {format_cena(stara):>12} {format_cena(nova):>12}  {smer}{diff}€  {nazov[:40]}")
         print()
 
+    if nove_db:
+        print("  HISTÓRIA NOVÝCH INZERÁTOV (posledných 50):")
+        print(f"  {'Dátum':<12} {'Cena':>12} {'Km':>10}  {'Lokalita':<14}  Názov")
+        print("  " + "─" * 80)
+        for row in nove_db:
+            ad_id, nazov, datum, cena, km, lokalita, url = row
+            print(f"  {datum:<12} {format_cena(cena):>12} {format_km(km):>10}  {lokalita:<14}  {nazov[:40]}")
+        print()
+
     # ── HTML export ───────────────────────────────────────────────────────────
-    html = vygeneruj_html(autá, zmeny, zmeny_db, dnes_str)
+    html = vygeneruj_html(autá, zmeny, zmeny_db, nove_db, dnes_str)
     HTML_PATH.write_text(html, encoding="utf-8")
     print(f"  🌐 HTML report: {HTML_PATH}")
     print(f"     Otvorte v prehliadači: open \"{HTML_PATH}\"")
