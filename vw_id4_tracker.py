@@ -6,6 +6,7 @@ Spustite denne: python3 vw_id4_tracker.py
 
 import re
 import sqlite3
+import subprocess
 import time
 import urllib.request
 import urllib.error
@@ -799,6 +800,38 @@ def main():
     print()
 
     conn.close()
+
+
+# ── git commit & push ─────────────────────────────────────────────────────────
+def git_commit_push(dnes_str: str, nové_ct: int, cena_ct: int) -> None:
+    def run(args: list[str]) -> subprocess.CompletedProcess:
+        return subprocess.run(
+            args, cwd=REPO_DIR, capture_output=True, text=True
+        )
+
+    run(["git", "add", "index.html"])
+
+    status = run(["git", "status", "--porcelain"])
+    if not status.stdout.strip():
+        print("  ℹ️  Git: žiadne zmeny na commitnutie.")
+        return
+
+    msg = f"tracker: {dnes_str} – {nové_ct} nových, {cena_ct} zmien ceny"
+    commit = run(["git", "commit", "-m", msg])
+    if commit.returncode != 0:
+        print(f"  ❌ Git commit zlyhal:\n{commit.stderr.strip()}")
+        return
+    print(f"  ✅ Git commit: {msg}")
+
+    push = run(["git", "push"])
+    if push.returncode != 0:
+        print(f"  ❌ Git push zlyhal:\n{push.stderr.strip()}")
+    else:
+        print("  🚀 Git push: úspešne odoslaný.")
+
+
+    # ── git commit & push ─────────────────────────────────────────────────────
+    git_commit_push(dnes_str, nové_ct, cena_ct)
 
 
 if __name__ == "__main__":
