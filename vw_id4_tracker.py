@@ -800,6 +800,7 @@ def main():
     print()
 
     conn.close()
+    git_commit_push(dnes_str, nové_ct, cena_ct)
 
 
 # ── git commit & push ─────────────────────────────────────────────────────────
@@ -828,10 +829,6 @@ def git_commit_push(dnes_str: str, nové_ct: int, cena_ct: int) -> None:
         print(f"  ❌ Git push zlyhal:\n{push.stderr.strip()}")
     else:
         print("  🚀 Git push: úspešne odoslaný.")
-
-
-    # ── git commit & push ─────────────────────────────────────────────────────
-    git_commit_push(dnes_str, nové_ct, cena_ct)
 
 
 if __name__ == "__main__":
