@@ -56,6 +56,17 @@
   .price-down { background:#d4edda; color:#155724; }
   .price-up   { background:#fde8e8; color:#7a1a1a; }
   .neznáme { color:#bbb; }
+  .ext-searches { background:#fff; border-radius:10px; margin-bottom:1.2rem;
+                   box-shadow:0 1px 4px rgba(0,0,0,.08); padding:1rem 1.2rem; }
+  .ext-searches h2 { font-size:.95rem; color:#1b2a4a; margin-bottom:.7rem;
+                      display:flex; align-items:center; gap:.5rem; }
+  .ext-links { display:flex; flex-wrap:wrap; gap:.6rem; }
+  .ext-link { display:inline-flex; align-items:center; gap:.4rem;
+               background:#f0f4ff; border:1px solid #c7d4f0; border-radius:6px;
+               padding:.35rem .8rem; font-size:.85rem; color:#1b3a8a;
+               text-decoration:none; font-weight:500; }
+  .ext-link:hover { background:#dde6ff; border-color:#8eaaf0; }
+  .ext-link .portal { font-size:.75rem; opacity:.65; }
   @media(max-width:700px) { table { display:block; overflow-x:auto; } }
 </style>
 </head>
@@ -64,12 +75,25 @@
   <h1>🚗 VW ID.4 150kW (77/82 kWh) – prehľad inzerátov</h1>
   <div class="meta">Zdroj: auto.bazos.sk &nbsp;|&nbsp; Aktualizované: 2026-06-16</div>
   <div class="stats">
-    <div class="stat">📋 Celkom: 33</div>
-    <div class="stat">🆕 Nové: 1</div>
+    <div class="stat">📋 Celkom: 30</div>
+    <div class="stat">🆕 Nové: 0</div>
     <div class="stat">💰 Zmena ceny: 0</div>
     <div class="stat">✔ Ťažné+Park: 1</div>
   </div>
 </header>
+<div class="ext-searches">
+  <h2>🔍 Hľadať aj na iných portáloch</h2>
+  <div class="ext-links">
+    <a class="ext-link" href="https://suchen.mobile.de/fahrzeuge/search.html?lang=en&isSearchRequest=true&s=Car&vc=Car&bc=60&dam=false&fr=2022&ft=ELECTRICITY&ml=%3A65000&ms=25200%3B82%3B%3B&ms=25200%3B93%3B%3B&p=%3A28000&pa=AUTOMATIC_PARKING&od=up&sb=rel&ref=dsp" target="_blank" rel="noopener">
+      🌐 <span>VW ID.4 / ID.5 Pro – mobile.de</span>
+      <span class="portal">(≤65 000 km, ≤28 000 €, od 2022, park.asist.)</span>
+    </a>
+    <a class="ext-link" href="https://www.autobazar.eu/vysledky/osobne-vozidla/volkswagen/?mileageTo=64999&priceFrom=25000&priceTo=30000&yearFrom=2022&keyword=pro&model=35549,41651" target="_blank" rel="noopener">
+      🌐 <span>VW ID.4 / ID.5 Pro – autobazar.eu</span>
+      <span class="portal">(≤64 999 km, 25–30 000 €, od 2022, keyword: pro)</span>
+    </a>
+  </div>
+</div>
 
     <section class="cat-best">
       <h2>✔ Ťažné zariadenie + Parkovací asistent <span class="cnt">1</span></h2>
@@ -255,7 +279,7 @@
       </table>
     </section>
     <section class="cat-none">
-      <h2>✘ Bez ťažného aj parkovacieho asistenta <span class="cnt">21</span></h2>
+      <h2>✘ Bez ťažného aj parkovacieho asistenta <span class="cnt">18</span></h2>
       <table>
         <thead><tr>
           <th onclick="sortTable(this)">Ročník ↕</th>
@@ -287,7 +311,7 @@
           <td>Michalovce</td>
           <td class="no">✘ Ťažné</td>
           <td class="no">✘ Park.</td>
-          <td><span class="badge new">🆕 Nové</span></td>
+          <td></td>
           <td><a href="https://auto.bazos.sk/inzerat/192764838/id4-pro-performance-tep-cerp-tazne.php" target="_blank" rel="noopener">🔗 otvoriť</a></td>
           <td class="nazov"><a href="https://auto.bazos.sk/inzerat/192764838/id4-pro-performance-tep-cerp-tazne.php" target="_blank" rel="noopener">ID4 Pro performance, TEP. ČERP, ŤAŽNÉ</a></td>
         </tr>
@@ -301,17 +325,6 @@
           <td></td>
           <td><a href="https://auto.bazos.sk/inzerat/192291504/volkswagen-id5-pro-performance-122022-101000km-82kwh.php" target="_blank" rel="noopener">🔗 otvoriť</a></td>
           <td class="nazov"><a href="https://auto.bazos.sk/inzerat/192291504/volkswagen-id5-pro-performance-122022-101000km-82kwh.php" target="_blank" rel="noopener">Volkswagen ID.5 PRO Performance 12/2022 101&#039;000km 82kWh</a></td>
-        </tr>
-        <tr>
-          <td class="rocnik">12/2022</td>
-          <td>24 322 km</td>
-          <td class="cena">28 650 €</td>
-          <td>Nitra</td>
-          <td class="no">✘ Ťažné</td>
-          <td class="no">✘ Park.</td>
-          <td></td>
-          <td><a href="https://auto.bazos.sk/inzerat/192062996/volkswagen-id4-pro-matrix-kamera-2023-keyless.php" target="_blank" rel="noopener">🔗 otvoriť</a></td>
-          <td class="nazov"><a href="https://auto.bazos.sk/inzerat/192062996/volkswagen-id4-pro-matrix-kamera-2023-keyless.php" target="_blank" rel="noopener">Volkswagen ID.4 PRO  MATRIX KAMERA  2023 KEYLESS</a></td>
         </tr>
         <tr>
           <td class="rocnik">04/2021</td>
@@ -334,28 +347,6 @@
           <td></td>
           <td><a href="https://auto.bazos.sk/inzerat/191194576/volkswagen-id4-pro-77-kwh.php" target="_blank" rel="noopener">🔗 otvoriť</a></td>
           <td class="nazov"><a href="https://auto.bazos.sk/inzerat/191194576/volkswagen-id4-pro-77-kwh.php" target="_blank" rel="noopener">Volkswagen ID.4 Pro 77 kWh / 150kw / 2022</a></td>
-        </tr>
-        <tr>
-          <td class="rocnik">–</td>
-          <td>62 000 km</td>
-          <td class="cena">28 700 €</td>
-          <td>Senec</td>
-          <td class="no">✘ Ťažné</td>
-          <td class="no">✘ Park.</td>
-          <td></td>
-          <td><a href="https://auto.bazos.sk/inzerat/191894057/volkswagen-id5-2023-pro-perfomance-77kwh.php" target="_blank" rel="noopener">🔗 otvoriť</a></td>
-          <td class="nazov"><a href="https://auto.bazos.sk/inzerat/191894057/volkswagen-id5-2023-pro-perfomance-77kwh.php" target="_blank" rel="noopener">REZERVEVolkswagen ID5 2023 Pro Perfomance 77kwh</a></td>
-        </tr>
-        <tr>
-          <td class="rocnik">–</td>
-          <td>65 000 km</td>
-          <td class="cena">28 900 €</td>
-          <td>Senec</td>
-          <td class="no">✘ Ťažné</td>
-          <td class="no">✘ Park.</td>
-          <td></td>
-          <td><a href="https://auto.bazos.sk/inzerat/191403730/volkswagen-id4-pro-performance-77-kwh-matrix-led-acc.php" target="_blank" rel="noopener">🔗 otvoriť</a></td>
-          <td class="nazov"><a href="https://auto.bazos.sk/inzerat/191403730/volkswagen-id4-pro-performance-77-kwh-matrix-led-acc.php" target="_blank" rel="noopener">Volkswagen ID.4 Pro Performance 77 kWh | Matrix LED | ACC |</a></td>
         </tr>
         <tr>
           <td class="rocnik">03/2022</td>
